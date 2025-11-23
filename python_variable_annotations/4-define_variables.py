@@ -2,6 +2,6 @@
 """Defining and annotating following variables"""
 
 a: int = 1
-pi: flta = 3.14
+pi: float = 3.14
 i_understand_annotations: bool = True
 school: str = "Holberton"
