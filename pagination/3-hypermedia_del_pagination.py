@@ -32,36 +32,31 @@ class Server:
             self.__indexed_dataset = {i: dataset[i] for i in range(len(dataset))}
         return self.__indexed_dataset
 
-    def get_hyper_index(self, index: int = 0, page_size: int = 10) -> Dict:
-        """
-        Return a deletion-resilient hypermedia page of the dataset.
+def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
+    """Return a deletion-resilient hypermedia page of the dataset."""
+    # Default index to 0 if None
+    if index is None:
+        index = 0
 
-        Args:
-            index (int): The start index of the page (0 by default)
-            page_size (int): Number of items per page (10 by default)
+    # Validate index
+    assert isinstance(index, int) and 0 <= index < len(self.indexed_dataset())
 
-        Returns:
-            dict: Dictionary containing page info
-        """
-        # Validate index
-        assert isinstance(index, int) and 0 <= index < len(self.indexed_dataset())
+    dataset = self.indexed_dataset()
+    data = []
+    current_index = index
+    collected = 0
+    max_index = max(dataset.keys())
 
-        dataset = self.indexed_dataset()
-        data = []
-        current_index = index
-        collected = 0
-        max_index = max(dataset.keys())
+    # Collect 'page_size' items, skipping missing/deleted entries
+    while collected < page_size and current_index <= max_index:
+        if current_index in dataset:
+            data.append(dataset[current_index])
+            collected += 1
+        current_index += 1
 
-        # Collect 'page_size' items, skipping missing/deleted entries
-        while collected < page_size and current_index <= max_index:
-            if current_index in dataset:
-                data.append(dataset[current_index])
-                collected += 1
-            current_index += 1
-
-        return {
-            "index": index,
-            "next_index": current_index,
-            "page_size": len(data),
-            "data": data
-        }
+    return {
+        "index": index,
+        "next_index": current_index,
+        "page_size": len(data),
+        "data": data
+    }
