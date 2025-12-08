@@ -1,23 +1,22 @@
 #!/usr/bin/env python3
 """
-Simple pagination using index_range and a CSV dataset of baby names.
+Simple pagination module
 """
 
 import csv
-from typing import List
-from typing import Tuple
-
+from typing import List, Tuple
+import os
 
 def index_range(page: int, page_size: int) -> Tuple[int, int]:
     """
-    Return a tuple containing the start and end index for pagination.
+    Return a tuple containing start index and end index for pagination.
 
     Args:
-        page (int): The current page number (1-indexed)
+        page (int): Page number (1-indexed)
         page_size (int): Number of items per page
 
     Returns:
-        tuple: (start_index, end_index)
+        Tuple[int, int]: (start_index, end_index)
     """
     start_index = (page - 1) * page_size
     end_index = page * page_size
@@ -25,10 +24,10 @@ def index_range(page: int, page_size: int) -> Tuple[int, int]:
 
 
 class Server:
-    """Server class to paginate a database of popular baby names.
-    """
+    """Server class to paginate a database of popular baby names."""
 
-    DATA_FILE = "Popular_Baby_Names.csv"
+    # Use absolute path to CSV so it always works
+    DATA_FILE = os.path.join(os.path.dirname(__file__), "Popular_Baby_Names.csv")
 
     def __init__(self):
         self.__dataset = None
@@ -39,33 +38,20 @@ class Server:
             with open(self.DATA_FILE) as f:
                 reader = csv.reader(f)
                 dataset = [row for row in reader]
-
-            # Skip the header row
-            self.__dataset = dataset[1:]
-
+            self.__dataset = dataset[1:]  # skip header
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-        """
-        Return a page of the dataset.
-
-        Args:
-            page (int): The current page number (must be > 0)
-            page_size (int): Number of items per page (must be > 0)
-
-        Returns:
-            List[List]: The paginated rows of the dataset
-        """
-
-        # Validate inputs
+        """Return a page of the dataset."""
+        # Validate input
         assert isinstance(page, int) and page > 0
         assert isinstance(page_size, int) and page_size > 0
 
+        start_index, end_index = index_range(page, page_size)
         dataset = self.dataset()
-        start, end = index_range(page, page_size)
 
-        # If out of range → return empty list
-        if start >= len(dataset):
+        # If start_index out of range, return empty list
+        if start_index >= len(dataset):
             return []
 
-        return dataset[start:end]
+        return dataset[start_index:end_index]
