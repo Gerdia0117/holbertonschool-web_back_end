@@ -1,0 +1,31 @@
+{
+  "name": "holbertonschool-web_back_end",
+  "version": "1.0.0",
+  "description": "This repository contains backend web development projects and exercises.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gerdia0117/holbertonschool-web_back_end.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Gerdia0117/holbertonschool-web_back_end/issues"
+  },
+  "homepage": "https://github.com/Gerdia0117/holbertonschool-web_back_end#readme",
+  "devDependencies": {
+    "@babel/core": "^7.28.5",
+    "@babel/node": "^7.28.0",
+    "@babel/preset-env": "^7.28.5",
+    "babel-jest": "^30.2.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.32.0",
+    "jest": "^30.2.0"
+  }
+}
