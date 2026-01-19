@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "./node_modules/.bin/eslint",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --exec babel-node --presets @babel/preset-env ./server.js",
+    "dev": "nodemon --exec babel-node --presets @babel/preset-env ./full_server/server.js ./database.csv",
     "test-watch": "jest --watch"
   },
   "keywords": [],
@@ -14,5 +14,10 @@
   "license": "ISC",
   "dependencies": {
     "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@babel/node": "^7.28.6",
+    "@babel/preset-env": "^7.28.6",
+    "nodemon": "^3.1.11"
   }
 }
